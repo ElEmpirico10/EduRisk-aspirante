@@ -1,0 +1,186 @@
+[
+  {
+    "text": "¿Por qué elegiste estudiar ADSO?",
+    "type": "textarea",
+    "placeholder": "Explica las razones que te motivaron a elegir Análisis y Desarrollo de Software..."
+  },
+  {
+    "text": "¿Te gustaría trabajar en desarrollo de software en el futuro?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Ya has tenido experiencias previas con programación?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Qué tanto disfrutas resolver problemas o retos lógicos?",
+    "type": "select",
+    "options": [
+      "Me encanta, es lo que más disfruto",
+      "Me gusta bastante",
+      "Me gusta moderadamente",
+      "No me gusta mucho",
+      "No me gusta para nada"
+    ]
+  },
+  {
+    "text": "¿Lees o investigas sobre tecnología por cuenta propia?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Tienes metas claras relacionadas con tu formación en ADSO?",
+    "type": "textarea",
+    "placeholder": "Describe qué metas específicas tienes con esta formación y cómo planeas alcanzarlas..."
+  },
+  {
+    "text": "¿Con quién vives actualmente?",
+    "type": "select",
+    "options": [
+      "Con mis padres/familia completa",
+      "Solo con mi madre",
+      "Solo con mi padre",
+      "Con otros familiares (abuelos, tíos, etc.)",
+      "Con mi pareja",
+      "Vivo solo/a",
+      "Con amigos/compañeros",
+      "Otro"
+    ]
+  },
+  {
+    "text": "¿Tus padres/familiares apoyan tu decisión de estudiar ADSO?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Tus familiares entienden la importancia de la formación técnica/profesional?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Cuentas con alguien cercano que pueda motivarte si piensas abandonar?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Tus amigos o entorno social valoran el estudio como una prioridad?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Actualmente trabajas?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "Si trabajas, ¿cuántas horas a la semana dedicas al trabajo?",
+    "type": "select",
+    "options": [
+      "No trabajo",
+      "Menos de 20 horas",
+      "Entre 20-30 horas",
+      "Entre 30-40 horas",
+      "Más de 40 horas"
+    ]
+  },
+  {
+    "text": "¿Tus ingresos o los de tu familia cubren tus necesidades básicas (transporte, alimentación, materiales)?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿El trabajo que realizas interfiere con tus estudios?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Dependes económicamente de alguien más para poder estudiar?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Has tenido que abandonar estudios anteriores por motivos económicos?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Cuántas horas al día puedes dedicar exclusivamente al estudio fuera de clase?",
+    "type": "select",
+    "options": [
+      "Menos de 1 hora",
+      "1-2 horas",
+      "2-3 horas",
+      "3-4 horas",
+      "Más de 4 horas"
+    ]
+  },
+  {
+    "text": "¿Tienes un espacio tranquilo y adecuado en casa para estudiar?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Sueles organizar tus horarios para cumplir con las actividades académicas?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Qué tan fácil es para ti concentrarte durante varias horas seguidas?",
+    "type": "select",
+    "options": [
+      "Muy fácil, puedo concentrarme por horas",
+      "Bastante fácil",
+      "Moderadamente fácil",
+      "Difícil, me distraigo",
+      "Muy difícil, no puedo concentrarme"
+    ]
+  },
+  {
+    "text": "¿Usas herramientas o métodos de organización (agenda, apps, recordatorios)?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Estás dispuesto a sacrificar parte de tu tiempo libre para cumplir con el programa?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Qué tan seguro estás de terminar el programa ADSO?",
+    "type": "select",
+    "options": [
+      "Completamente seguro/a",
+      "Muy seguro/a",
+      "Moderadamente seguro/a",
+      "Poco seguro/a",
+      "Nada seguro/a"
+    ]
+  },
+  {
+    "text": "¿Qué harías si sientes que el programa es más difícil de lo que esperabas?",
+    "type": "textarea",
+    "placeholder": "Describe qué estrategias utilizarías para superar las dificultades académicas..."
+  },
+  {
+    "text": "¿Qué nivel de estrés manejas actualmente en tu vida?",
+    "type": "select",
+    "options": ["Bajo", "Medio-bajo", "Medio", "Medio-alto", "Alto"]
+  },
+  {
+    "text": "¿Sueles abandonar proyectos o compromisos cuando se vuelven difíciles?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  },
+  {
+    "text": "¿Cómo manejas la frustración cuando algo no te sale a la primera?",
+    "type": "textarea",
+    "placeholder": "Describe cómo reaccionas y qué haces cuando enfrentas dificultades o fracasos..."
+  },
+  {
+    "text": "¿Te consideras una persona perseverante y constante?",
+    "type": "radio",
+    "options": ["Sí", "No", "Tal vez"]
+  }
+]
