@@ -2,9 +2,10 @@ FROM php:8.2-apache
 
 # Instalar librerías necesarias para extensiones de PHP
 RUN apt-get update && apt-get install -y \
-    libzip-dev unzip git curl \
+    libzip-dev unzip git curl libpq-dev pkg-config \
     && docker-php-ext-install pdo pdo_pgsql \
-    && docker-php-ext-enable pdo pdo_pgsql
+    && docker-php-ext-enable pdo pdo_pgsql \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php \
