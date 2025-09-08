@@ -1,6 +1,7 @@
 <?php
 class Controller
 {
+
     public function model($model)
     {
         $modelPath = 'app/models/' . $model . '.php';

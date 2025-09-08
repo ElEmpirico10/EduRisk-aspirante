@@ -107,5 +107,7 @@
             togglePassword.classList.toggle('bi-eye-slash');
         });
     </script>
+
+    <script src="/src/public/js/login.js"></script>
 </body>
 </html>

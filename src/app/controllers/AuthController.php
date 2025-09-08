@@ -1,4 +1,10 @@
 <?php
+require_once '../core/jwt_config.php';
+require_once '/vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 class AuthController extends Controller
 {
     private function jsonResponse($data, $statusCode = 200)
@@ -7,6 +13,18 @@ class AuthController extends Controller
         header('Content-Type: application/json');
         echo json_encode($data);
         exit;
+    }
+
+    private function validation_typeIdentification($tipoIdentificacion)
+    {
+        $identificacionFiltrada = strtolower(trim($tipoIdentificacion));
+        $identificacionesPermitidas = ['tarjeta de identidad', 'cedula', 'cedula extranjera'];
+
+        if (!empty($identificacionFiltrada) && preg_match('/^[A-Za-z]+$/', $identificacionFiltrada) && in_array($identificacionFiltrada, $identificacionesPermitidas)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function login()
@@ -19,6 +37,10 @@ class AuthController extends Controller
 
             if (empty($tipoIdentificacion)) {
                 $errors[] = "El tipo de identificación es obligatorio.";
+            }
+
+            if (!$this->validation_typeIdentification($tipoIdentificacion)) {
+                $errors[] = "El tipo de identificacion elegido no se encuentra en disponibilidad";
             }
 
             if (!preg_match('/^[0-9]+$/', $identificacion) && empty($identificacion)) {
@@ -44,6 +66,18 @@ class AuthController extends Controller
                     ], 401);
                 }
 
+                $token = [
+                    'iss' => JwtConfig::getIssuer(),
+                    'aud' => JwtConfig::getAudience(),
+                    'iat' => JwtConfig::getIssueAt(),
+                    'exp' => JwtConfig::expirationTime(),
+                    'data' => [
+                        'id_user' => $userdata['id'],
+                        'usuario' => $userdata['usuario']
+                    ]
+                ];
+
+                $jwt = JWT::encode($token, JwtConfig::getKey(), 'HS256');
                 session_start();
                 $_SESSION['id_user'] = $userdata['id'];
                 $_SESSION['usuario'] = $userdata['usuario'];
@@ -51,8 +85,7 @@ class AuthController extends Controller
                 return $this->jsonResponse([
                     'status' => 'success',
                     'message' => 'Login correcto',
-                    'id_user' => $userdata['id'],
-                    'usuario' => $userdata['usuario'],
+                    'token' => $jwt
                 ]);
             }
 

@@ -5,7 +5,7 @@ class Users
     private $conn;
 
     public function __construct()
-    {
+    {   
         $database = new Conexion();
         $this->conn = $database->getConnection();
     }

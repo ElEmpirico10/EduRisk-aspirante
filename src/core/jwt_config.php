@@ -2,7 +2,7 @@
 
 class JwtConfig {
     private static $key = 'tk_edurisk-sena-co';
-    private static $issuser = 'http://localhost';
+    private static $issuer = 'http://localhost';
     private static $audience = 'http://localhost';
     private static $issueAt = null;
     private static $expirationTime = null;
@@ -10,8 +10,8 @@ class JwtConfig {
     public static function getKey() {
         return self::$key;
     }
-    public static function getIssuser() {
-        return self::$issuser;
+    public static function getIssuer() {
+        return self::$issuer;
     }
     public static function getAudience() {
         return self::$audience;

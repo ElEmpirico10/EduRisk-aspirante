@@ -1,31 +1,37 @@
 async function login() {
-    const jwt = require('jsonwebtoken');
     const formData = new FormData();
-    formData.append('usuario', document.getElementById('document-number'));
-    formData.append('usuario', document.getElementById('password'));
+    formData.append(
+        "tipoIdentificacion",
+        document.getElementById("documentType__selected-id").value
+    );
+    formData.append(
+        "identificacion",
+        document.getElementById("document-number").value
+    );
+    formData.append("contrasena", document.getElementById("password").value);
 
-    try {
-        await fetch('auth/login', {
-            method: 'POST',
-            body: formData
-        }).then(res => res.json()).then(data => {
-            if (data.status == 'success') {
+    await fetch("auth/login", {
+        method: "POST",
+        body: formData,
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.status == "success") {
                 alert(data.message);
-                localStorage.setItem();
-                localStorage.setItem();
-                window.location.href = '/home'
+                localStorage.setItem('jwt_token', data.token);
+                window.location.href = "/home";
             }
+        })
+        .catch((err) => {
+            console.log("Error en la conexion o JSON invalido: ", err);
+            alert("Error en la conexion. Por favor, intenta de nuevo");
         });
-    } catch (err) {
-        console.log('Error en la conexion o JSON invalido: ', err);
-        alert('Error en la conexion. Por favor, intenta de nuevo');
-    }
 }
 
 function formLoginSubmission() {
-    const form = document.getElementById('formContent');
+    const form = document.getElementById("formContent");
     if (form) {
-        form.addEventListener('submit', async (e) => {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
             await login();
         });
@@ -33,4 +39,3 @@ function formLoginSubmission() {
 }
 
 formLoginSubmission();
-
