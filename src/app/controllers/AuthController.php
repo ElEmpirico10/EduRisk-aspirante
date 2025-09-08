@@ -12,12 +12,21 @@ class AuthController extends Controller
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $usuario = $_POST['usuario'] ?? '';
+            $tipoIdentificacion = $_POST['tipoIdentificacion'] ?? '';
+            $identificacion = $_POST['identificacion'] ?? '';
             $contrasena = $_POST['contrasena'] ?? '';
             $errors = [];
 
-            if (empty($usuario)) {
-                $errors[] = "El username no es válido.";
+            if (empty($tipoIdentificacion)) {
+                $errors[] = "El tipo de identificación es obligatorio.";
+            }
+
+            if (!preg_match('/^[0-9]+$/', $identificacion) && empty($identificacion)) {
+                $errors[] = "Campo de identificacion no valido";
+            }
+
+            if (empty($contrasena)) {
+                $errors[] = "Asegurate de digitar tu respectiva contraseña";
             }
 
             if (strlen($contrasena) < 6) {
@@ -26,12 +35,12 @@ class AuthController extends Controller
 
             if (empty($errors)) {
                 $user = $this->model('Users');
-                $userdata = $user->findByUsuario($usuario);
+                $userdata = $user->findByUsuario($identificacion);
 
                 if (!$userdata || !password_verify($contrasena, $userdata['contrasena'])) {
                     return $this->jsonResponse([
                         'status' => 'error',
-                        'message' => 'Credenciales inválidas.'
+                        'message' => 'Contreña incorrecta.'
                     ], 401);
                 }
 

@@ -6,7 +6,7 @@ class Users
 
     public function __construct()
     {
-        $database = new Database();
+        $database = new Conexion();
         $this->conn = $database->getConnection();
     }
 
@@ -40,11 +40,11 @@ class Users
 
     }
 
-    public function findByusuario($usuario)
+    public function findByusuario($identificacion)
     {
         $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':usuario' => $usuario]);
+        $stmt->execute([':usuario' => $identificacion]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 

@@ -11,6 +11,8 @@ class Conexion {
             $this->conn = new PDO("pgsql:host={$this->host};dbname={$this->db}", $this->user, $this->pass);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             error_log("Conexión exitosa a PostgreSQL");
+
+            return $this->conn;
         } catch (PDOException $e) {
             die("Error de conexión: " . $e->getMessage());
         }

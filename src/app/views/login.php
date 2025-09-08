@@ -17,10 +17,10 @@
             <h1 class="app-name">EDURISK</h1>
         </div>
 
-        <form method="POST" action="#">
+        <form id="formContent" method="POST" action="#">
             <div class="form-group">
                 <label for="document-type">Tipo de Documento</label>
-                <select id="document-type" name="document_type" required>
+                <select id="documentType__selected-id" id="document-type" name="document_type" required>
                     <option value="">Seleccione tipo de documento</option>
                     <option value="tarjeta_identidad">Tarjeta de Identidad</option>
                     <option value="cedula">Cédula</option>
@@ -30,7 +30,7 @@
 
             <div class="form-group">
                 <label for="document-number">Número de Documento</label>
-                <input 
+                <input
                     type="text" 
                     id="document-number" 
                     name="document_number" 
