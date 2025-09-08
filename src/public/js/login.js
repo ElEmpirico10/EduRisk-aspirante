@@ -17,9 +17,20 @@ async function login() {
         .then((res) => res.json())
         .then((data) => {
             if (data.status == "success") {
+                // Investigar mas sobre HttpOnly
+
                 alert(data.message);
+                const ubicacionActual = window.location.href;
                 localStorage.setItem('jwt_token', data.token);
-                window.location.href = "/home";
+                let firstParam = data.token;
+
+                window.location.href = `${ubicacionActual}?tokenUser=${firstParam}`;
+                return;
+            }
+
+            if (data.status == 'error') {
+                alert(data.message);
+                console.log('Ha ocurrido un error inesperado en la obtencion de datos');
             }
         })
         .catch((err) => {
