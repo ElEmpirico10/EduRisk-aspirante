@@ -1,0 +1,42 @@
+name: Notification on Discord the push commits
+run-name: Notification push commits
+on:
+  push:
+  pull_request:
+    types: [opened, closed, merged]
+
+jobs:
+  Notify-Push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: |
+            Cambio subidos
+            Usuario: {{ EVENT_PAYLOAD.pusher.name }}
+            Repositorio: {{ EVENT_PAYLOAD.repository.full_name }}
+            Rama: {{ EVENT_PAYLOAD.ref }}
+            Ultimo commit: {{ EVENT_PAYLOAD.head_commit.message }}
+            Tiempo del commit: {{ EVENT_PAYLOAD.head_commit.timestamp }}
+          DISCORD_USERNAME: 'Github BOT'
+
+  Notify-PR:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: |
+            Cambio subidos
+            Usuario: {{ EVENT_PAYLOAD.pusher.name }}
+            Repositorio: {{ EVENT_PAYLOAD.repository.full_name }}
+            Rama: {{ EVENT_PAYLOAD.ref }}
+            Ultimo commit: {{ EVENT_PAYLOAD.head_commit.message }}
+            Tiempo del commit: {{ EVENT_PAYLOAD.head_commit.timestamp }}
+          DISCORD_USERNAME: 'Github BOT'
