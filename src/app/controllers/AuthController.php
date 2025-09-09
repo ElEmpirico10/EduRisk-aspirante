@@ -41,8 +41,8 @@ class AuthController extends Controller
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tipoIdentificacion = $_POST['tipoIdentificacion'] ?? '';
-            $identificacion = $_POST['identificacion'] ?? '';
-            $contrasena = $_POST['contrasena'] ?? '';
+            $identificacion = $_POST['document-number'] ?? '';
+            $contrasena = $_POST['password'] ?? '';
             $errors = [];
 
             if (empty($tipoIdentificacion)) {
@@ -61,7 +61,7 @@ class AuthController extends Controller
                 $errors[] = "Asegurate de digitar tu respectiva contraseña";
             }
 
-            if (strlen($contrasena) < 6) {
+            if (!strlen($contrasena) < 6) {
                 $errors[] = "La contraseña debe tener al menos 6 caracteres.";
             }
 
@@ -113,5 +113,10 @@ class AuthController extends Controller
             'status' => 'error',
             'message' => 'Método no permitido'
         ], 405);
+    }
+
+    public function index(){
+         $this->view('login');
+
     }
 }
