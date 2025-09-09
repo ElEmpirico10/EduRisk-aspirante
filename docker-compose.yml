@@ -19,7 +19,7 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_DB: edurisk_database
+      POSTGRES_DB: EduRisk
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
     ports:
