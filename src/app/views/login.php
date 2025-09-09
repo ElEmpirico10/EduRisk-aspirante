@@ -8,7 +8,7 @@
 
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="public/css/login.css">
+    <link rel="stylesheet" href="/public/css/login.css">
 
 </head>
 
@@ -19,7 +19,7 @@
             <h1 class="app-name">EDURISK</h1>
         </div>
 
-        <form id="formContent"  action="#">
+        <form id="formContent">
             <div class="form-group">
                 <label for="document-type">Tipo de Documento</label>
                 <select id="documentType__selected-id" id="document-type" name="document_type" required>
@@ -32,7 +32,7 @@
 
             <div class="form-group">
                 <label for="document-number">Número de Documento</label>
-                <input type="text" id="document-number" name="document_number"
+                <input type="text" id="document-number" name="document-number"
                     placeholder="Ingrese su número de documento" required>
             </div>
 
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="login-btn">Iniciar Sesión</button>
+            <button  type="submit" class="login-btn">Iniciar Sesión</button>
         </form>
 
 
@@ -99,7 +99,7 @@
         });
     </script>
 
-    <script src="/src/public/js/login.js"></script>
+    <script src="/public/js/login.js"></script>
 </body>
 
 </html>

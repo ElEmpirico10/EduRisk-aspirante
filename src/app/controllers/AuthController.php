@@ -1,6 +1,7 @@
 <?php
-require_once '../core/jwt_config.php';
-require_once '/vendor/autoload.php';
+require_once __DIR__ . '/../../core/jwt_config.php';
+
+
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -15,17 +16,7 @@ class AuthController extends Controller
         exit;
     }
 
-    private function validation_typeIdentification($tipoIdentificacion)
-    {
-        $identificacionFiltrada = strtolower(trim($tipoIdentificacion));
-        $identificacionesPermitidas = ['tarjeta de identidad', 'cedula', 'cedula extranjera'];
-
-        if (!empty($identificacionFiltrada) && preg_match('/^[A-Za-z]+$/', $identificacionFiltrada) && in_array($identificacionFiltrada, $identificacionesPermitidas)) {
-            return true;
-        }
-
-        return false;
-    }
+    
 
     public function validationToken($token)
     {
@@ -40,6 +31,7 @@ class AuthController extends Controller
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
             $tipoIdentificacion = $_POST['tipoIdentificacion'] ?? '';
             $identificacion = $_POST['document-number'] ?? '';
             $contrasena = $_POST['password'] ?? '';
@@ -47,10 +39,6 @@ class AuthController extends Controller
 
             if (empty($tipoIdentificacion)) {
                 $errors[] = "El tipo de identificación es obligatorio.";
-            }
-
-            if (!$this->validation_typeIdentification($tipoIdentificacion)) {
-                $errors[] = "El tipo de identificacion elegido no se encuentra en disponibilidad";
             }
 
             if (!preg_match('/^[0-9]+$/', $identificacion) && empty($identificacion)) {
@@ -67,7 +55,7 @@ class AuthController extends Controller
 
             if (empty($errors)) {
                 $user = $this->model('Users');
-                $userdata = $user->findByUsuario($identificacion);
+                $userdata = $user->findByUsuario($tipoIdentificacion,$identificacion);
 
                 if (!$userdata || !password_verify($contrasena, $userdata['contrasena'])) {
                     return $this->jsonResponse([
@@ -82,15 +70,15 @@ class AuthController extends Controller
                     'iat' => JwtConfig::getIssueAt(),
                     'exp' => JwtConfig::expirationTime(),
                     'data' => [
-                        'id_user' => $userdata['id'],
-                        'usuario' => $userdata['usuario']
+                        'id_user' => $userdata['id_aspirante'],
+                        'usuario' => $userdata['numero_tarjeta']
                     ]
                 ];
 
                 $jwt = JWT::encode($token, JwtConfig::getKey(), 'HS256');
                 session_start();
-                $_SESSION['id_user'] = $userdata['id'];
-                $_SESSION['usuario'] = $userdata['usuario'];
+                $_SESSION['id_user'] = $userdata['id_aspirante'];
+                $_SESSION['usuario'] = $userdata['numero_tarjeta'];
 
                 return $this->jsonResponse([
                     'status' => 'success',

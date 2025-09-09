@@ -1,5 +1,6 @@
 async function login() {
   const formData = new FormData();
+
   formData.append(
     "tipoIdentificacion",
     document.getElementById("documentType__selected-id").value
@@ -8,11 +9,14 @@ async function login() {
     "identificacion",
     document.getElementById("document-number").value
   );
-  formData.append("contrasena", document.getElementById("password").value);
+  formData.append('password', document.getElementById('password').value);
 
-  await fetch("auth/login", {
+  console.log(JSON.stringify(Object.fromEntries(formData)))
+
+  await fetch("/../../controllers/AuthController.php", {
     method: "POST",
-    body: formData,
+    headers: { 'Content-type': 'application/json' },
+    body: formData
   })
     .then((res) => res.json())
     .then((data) => {

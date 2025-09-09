@@ -2,8 +2,8 @@
 
 class JwtConfig {
     private static $key = 'tk_edurisk-sena-co';
-    private static $issuer = 'http://localhost';
-    private static $audience = 'http://localhost';
+    private static $issuer = 'http://localhost:8080';
+    private static $audience = 'http://localhost:8080';
     private static $issueAt = null;
     private static $expirationTime = null;
 

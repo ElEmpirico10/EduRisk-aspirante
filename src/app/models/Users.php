@@ -10,11 +10,12 @@ class Users
         $this->conn = $database->getConnection();
     }
 
-    public function findByusuario($identificacion)
+    public function findByusuario($tipo_documento,$numero_documento)
     {
-        $sql = "SELECT * FROM usuarios WHERE usuario = :usuario";
+        $sql = "SELECT buscar_aspirante(:tipo_documento,:numero_documento)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':usuario' => $identificacion]);
+        $stmt->execute([':tipo_documento' => $tipo_documento,
+                        ':numero_documento'=>$numero_documento]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 

@@ -42,7 +42,7 @@ CREATE TABLE Aspirante (
     segundo_apellido VARCHAR(50),
     email VARCHAR(50),
     tipo_tarjeta tipo_documento,  -- aquí usamos el ENUM
-    nutipomero_tarjeta BIGINT,
+    numero_tarjeta BIGINT,
     contrasena VARCHAR,
     id_ficha INT,
     CONSTRAINT fk_aspirante_ficha FOREIGN KEY (id_ficha) REFERENCES Ficha(id_ficha)
@@ -57,6 +57,7 @@ CREATE TABLE Examen (
     fecha_inicio TIMESTAMP,
     fecha_fin TIMESTAMP,
     habilitado BOOLEAN DEFAULT FALSE,
+    estado varchar(100),
     id_instructor INT,
     CONSTRAINT fk_examen_instructor FOREIGN KEY (id_instructor) REFERENCES Instructor(id_instructor)
 );
@@ -66,7 +67,7 @@ CREATE TABLE Examen (
 -- ======================================
 CREATE TABLE Pregunta (
     id_pregunta SERIAL PRIMARY KEY,
-    texto_pregunta VARCHAR(30),
+    texto_pregunta VARCHAR,
     tipo_pregunta VARCHAR
 );
 
