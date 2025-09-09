@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduRisk - Evaluación ADSO</title>
     <link rel="stylesheet" href="public/css/exam.css">
+    <link rel="stylesheet" href="public/css/toast.css">
+
 </head>
 
 <body>
@@ -62,11 +64,14 @@
                 <div class="expired-info">
                     <p><strong>Tiempo límite:</strong> 30 minutos</p>
                     <p><strong>Estado:</strong> Evaluación no completada</p>
+                    
                 </div>
+                <button class="btn btn-primary" id="regresar-btn">Regresar al Login</button>
+                
             </div>
         </div>
     </div>
-
+    <script src="/public/js/toast.js"></script>
     <script src="/public/js/exam.js"></script>
 </body>
 
