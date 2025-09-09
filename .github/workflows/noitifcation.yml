@@ -13,7 +13,7 @@ jobs:
         env:
           DISCORD_USERNAME: 'Github BOT'
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
+        uses: Ilshidur/action-discord@0.4.0
         with:
           args: |
             Cambio subidos
@@ -31,7 +31,7 @@ jobs:
         env:
           DISCORD_USERNAME: 'Github BOT'
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@master
+        uses: Ilshidur/action-discord@0.4.0
         with:
           args: |
             Cambio subidos
