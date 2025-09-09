@@ -19,7 +19,7 @@
             <h1 class="app-name">EDURISK</h1>
         </div>
 
-        <form id="formContent" method="POST" action="#">
+        <form id="formContent"  action="#">
             <div class="form-group">
                 <label for="document-type">Tipo de Documento</label>
                 <select id="documentType__selected-id" id="document-type" name="document_type" required>
