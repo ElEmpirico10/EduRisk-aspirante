@@ -2,8 +2,8 @@ CREATE DATABASE IF NOT EXISTS EduRisk;
 
 USE EduRisk;
 
-CREATE TABLE IF NOT EXISTS usuarios (
-  id_usuario SERIAL PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS aspirante (
+  id_aspirante SERIAL PRIMARY KEY,
   primer_nombre VARCHAR(50) NOT NULL,
   segundo_nombre VARCHAR(50),
   primer_apellido VARCHAR(50) NOT NULL,
