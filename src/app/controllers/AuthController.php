@@ -27,12 +27,13 @@ class AuthController extends Controller
         return false;
     }
 
-    public function validationToken($token) {
+    public function validationToken($token)
+    {
         try {
             $decode = JWT::decode($token, new Key(JwtConfig::getKey(), 'HS256'));
             return $this->jsonResponse(['status' => 'success', 'message' => 'Acceso permitido']);
         } catch (\Throwable $err) {
-            return $this->jsonResponse([ 'status' => 'error', 'message' => 'Acceso no autorizado: ' . $err->getMessage() ], 401);
+            return $this->jsonResponse(['status' => 'error', 'message' => 'Acceso no autorizado: ' . $err->getMessage()], 401);
         }
     }
 

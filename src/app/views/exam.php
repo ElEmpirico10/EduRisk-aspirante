@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduRisk - Evaluación ADSO</title>
     <link rel="stylesheet" href="public/css/exam.css">
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -47,7 +49,7 @@
                 <p><strong>Preguntas respondidas:</strong> <span id="answered-count">0</span> de 27</p>
                 <p><strong>Porcentaje de completitud:</strong> <span id="completion-percentage">0</span>%</p>
             </div>
-            
+
             <button class="btn btn-secondary" onclick="restartInterview()" style="margin-left: 10px;">Reiniciar</button>
         </div>
 
@@ -67,4 +69,5 @@
 
     <script src="/public/js/exam.js"></script>
 </body>
+
 </html>

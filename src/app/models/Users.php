@@ -5,39 +5,9 @@ class Users
     private $conn;
 
     public function __construct()
-    {   
+    {
         $database = new Conexion();
         $this->conn = $database->getConnection();
-    }
-
-    public function create($data)
-    {
-        try {
-            $sql = "INSERT INTO usuarios (nombre,apellido,usuario,email,contrasena,programa)
-            VALUES (:nombre, :apellido, :usuario, :email, :contrasena, :programa)";
-            $stmt = $this->conn->prepare($sql);
-            return $stmt->execute([
-                ':nombre' => $data["nombre"],
-                ':apellido' => $data['apellido'],
-                ':usuario' => $data['usuario'],
-                'email' => $data['email'],
-                ':contrasena' => $data['contrasena'],
-                ':programa' => $data['programa'],
-            ]);
-        } catch (PDOException $e) {
-            return $e->getMessage();
-        }
-    }
-
-    public function updatePassword($email, $contrasena)
-    {
-        $sql = "UPDATE usuarios SET contrasena = :contrasena WHERE email = :email";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([
-            ":contrasena" => $contrasena,
-            "email" => $email
-        ]);
-
     }
 
     public function findByusuario($identificacion)
