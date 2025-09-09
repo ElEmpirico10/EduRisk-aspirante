@@ -1,7 +1,7 @@
 <?php
 class Conexion {
     private $host = "db"; // nombre del servicio en docker-compose
-    private $db = "edurisk_database";
+    private $db = "EduRisk";
     private $user = "postgres";
     private $pass = "admin";
     private $conn;

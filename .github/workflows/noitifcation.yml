@@ -3,40 +3,42 @@ run-name: Notification push commits
 on:
   push:
   pull_request:
-    types: [opened, closed, merged]
+    types: [opened, closed]
 
 jobs:
   Notify-Push:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
     steps:
       - name: Discord notification
         env:
-          DISCORD_USERNAME: 'Github BOT'
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@0.4.0
+        uses: Ilshidur/action-discord@0.3.2
         with:
           args: |
-            Cambio subidos
+            Nuevo push detectado
             Usuario: {{ EVENT_PAYLOAD.pusher.name }}
             Repositorio: {{ EVENT_PAYLOAD.repository.full_name }}
             Rama: {{ EVENT_PAYLOAD.ref }}
-            Ultimo commit: {{ EVENT_PAYLOAD.head_commit.message }}
+            Último commit: {{ EVENT_PAYLOAD.head_commit.message }}
             Tiempo del commit: {{ EVENT_PAYLOAD.head_commit.timestamp }}
+          DISCORD_USERNAME: 'Github BOT'
 
   Notify-PR:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: ${{ github.event_name == 'pull_request' }}
     steps:
       - name: Discord notification
         env:
-          DISCORD_USERNAME: 'Github BOT'
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        uses: Ilshidur/action-discord@0.4.0
+        uses: Ilshidur/action-discord@0.3.2
         with:
           args: |
-            Cambio subidos
-            Usuario: {{ EVENT_PAYLOAD.pusher.name }}
+            Pull Request detectado
+            Autor: {{ EVENT_PAYLOAD.pull_request.user.login }}
             Repositorio: {{ EVENT_PAYLOAD.repository.full_name }}
-            Rama: {{ EVENT_PAYLOAD.ref }}
-            Ultimo commit: {{ EVENT_PAYLOAD.head_commit.message }}
-            Tiempo del commit: {{ EVENT_PAYLOAD.head_commit.timestamp }}
+            Rama origen: {{ EVENT_PAYLOAD.pull_request.head.ref }}
+            Rama destino: {{ EVENT_PAYLOAD.pull_request.base.ref }}
+            Título: {{ EVENT_PAYLOAD.pull_request.title }}
+            Estado: {{ EVENT_PAYLOAD.action }}
+          DISCORD_USERNAME: 'Github BOT'
