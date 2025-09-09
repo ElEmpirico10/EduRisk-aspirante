@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Discord notification
         env:
+          DISCORD_USERNAME: 'Github BOT'
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
@@ -21,7 +22,6 @@ jobs:
             Rama: {{ EVENT_PAYLOAD.ref }}
             Ultimo commit: {{ EVENT_PAYLOAD.head_commit.message }}
             Tiempo del commit: {{ EVENT_PAYLOAD.head_commit.timestamp }}
-          DISCORD_USERNAME: 'Github BOT'
 
   Notify-PR:
     runs-on: ubuntu-latest
@@ -29,6 +29,7 @@ jobs:
     steps:
       - name: Discord notification
         env:
+          DISCORD_USERNAME: 'Github BOT'
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
@@ -39,4 +40,3 @@ jobs:
             Rama: {{ EVENT_PAYLOAD.ref }}
             Ultimo commit: {{ EVENT_PAYLOAD.head_commit.message }}
             Tiempo del commit: {{ EVENT_PAYLOAD.head_commit.timestamp }}
-          DISCORD_USERNAME: 'Github BOT'
