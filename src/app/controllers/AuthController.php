@@ -114,4 +114,9 @@ class AuthController extends Controller
             'message' => 'Método no permitido'
         ], 405);
     }
+
+    public function index(){
+         $this->view('login');
+
+    }
 }
