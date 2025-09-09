@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,9 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="public/css/login.css">
-    
+
 </head>
+
 <body>
     <div class="login-container">
         <div class="logo-container">
@@ -30,25 +32,14 @@
 
             <div class="form-group">
                 <label for="document-number">Número de Documento</label>
-                <input
-                    type="text" 
-                    id="document-number" 
-                    name="document_number" 
-                    placeholder="Ingrese su número de documento"
-                    required
-                >
+                <input type="text" id="document-number" name="document_number"
+                    placeholder="Ingrese su número de documento" required>
             </div>
 
             <div class="form-group">
                 <label for="password">Contraseña</label>
                 <div class="password-wrapper">
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        placeholder="Ingrese su contraseña"
-                        required
-                    >
+                    <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" required>
                     <i class="bi bi-eye toggle-password" id="togglePassword"></i>
                 </div>
             </div>
@@ -56,7 +47,7 @@
             <button type="submit" class="login-btn">Iniciar Sesión</button>
         </form>
 
-        
+
     </div>
 
     <footer>
@@ -65,11 +56,11 @@
 
     <script>
         // Animación suave al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const container = document.querySelector('.login-container');
             container.style.opacity = '0';
             container.style.transform = 'translateY(20px)';
-            
+
             setTimeout(() => {
                 container.style.transition = 'all 0.6s ease';
                 container.style.opacity = '1';
@@ -78,7 +69,7 @@
         });
 
         // Validación básica del formulario
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.querySelector('form').addEventListener('submit', function (e) {
             const documentType = document.getElementById('document-type').value;
             const documentNumber = document.getElementById('document-number').value;
             const password = document.getElementById('password').value;
@@ -110,4 +101,5 @@
 
     <script src="/src/public/js/login.js"></script>
 </body>
+
 </html>
