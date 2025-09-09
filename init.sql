@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS aspirante (
   tipo_tarjeta VARCHAR(100) NOT NULL,
   numero_tarjeta BIGINT NOT NULL UNIQUE,
   contraseña VARCHAR() NOT NULL,
+  id_ficha INT,
   FOREIGN KEY (id_ficha) REFERENCES Tb_ficha(id_ficha)
 );
 
