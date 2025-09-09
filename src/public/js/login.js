@@ -9,16 +9,16 @@ async function login() {
     "identificacion",
     document.getElementById("document-number").value
   );
-  formData.append('password', document.getElementById('password').value);
+  formData.append("password", document.getElementById("password").value);
 
-  console.log(JSON.stringify(Object.fromEntries(formData)))
+  console.log(JSON.stringify(Object.fromEntries(formData)));
 
-  await fetch("/../../controllers/AuthController.php", {
+  const response = await fetch("/auth/login", {
     method: "POST",
-    headers: { 'Content-type': 'application/json' },
-    body: formData
+    headers: { "Content-type": "application/json" },
+    body: formData,
   })
-    .then((res) => res.json())
+    .then((res) => res.text())
     .then((data) => {
       if (data.status == "success") {
         alert(data.message);
