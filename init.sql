@@ -69,7 +69,9 @@ CREATE TABLE Pregunta (
     id_pregunta SERIAL PRIMARY KEY,
     texto_pregunta VARCHAR,
     tipo_pregunta VARCHAR,
-    contenido VARCHAR
+    contenido VARCHAR,
+    programa VARCHAR,
+    valor_pregunta NUMERIC
 );
 
 -- ======================================
@@ -89,7 +91,7 @@ CREATE TABLE examen_pregunta (
 CREATE TABLE Respuesta (
     id_respuesta SERIAL PRIMARY KEY,
     texto_respuesta VARCHAR,
-    valor_respuesta VARCHAR,
+    valor_respuesta NUMERIC,
     id_aspirante INT,
     id_pregunta INT,
     id_examen INT,
@@ -234,6 +236,72 @@ BEGIN
         p_nombre_ficha,
         p_codigo_ficha,
         p_id_instructor
+    );
+END;
+$$;
+
+--======================================
+-- procedimiento para insertar pregunta nombre : insertar_pregunta
+--======================================
+
+CREATE OR REPLACE PROCEDURE insertar_pregunta(
+    p_texto_pregunta VARCHAR,
+    p_tipo_pregunta VARCHAR,
+    p_contenido VARCHAR,
+    p_programa VARCHAR,
+    p_valor_pregunta
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO Pregunta (texto_pregunta, tipo_pregunta, contenido, programa,valor_pregunta)
+    VALUES (p_texto_pregunta, p_tipo_pregunta, p_contenido, p_programa,p_valor_pregunta);
+END;
+$$;
+
+--======================================
+-- procedimiento para insertar realciones de pregunta con examen  nombre : insertar_examen_pregunta
+--======================================
+
+CREATE OR REPLACE PROCEDURE insertar_examen_pregunta(
+    p_id_examen   INT,
+    p_id_pregunta INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO examen_pregunta (id_examen, id_pregunta)
+    VALUES (p_id_examen, p_id_pregunta);
+END;
+$$;
+
+--======================================
+-- procedimiento para insertar respuesta  nombre : insertar_respuesta
+--======================================
+
+CREATE OR REPLACE PROCEDURE insertar_respuesta(
+    p_texto_respuesta  VARCHAR,
+    p_valor_respuesta  NUMERIC,
+    p_id_aspirante     INT,
+    p_id_pregunta      INT,
+    p_id_examen        INT
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    INSERT INTO Respuesta (
+        texto_respuesta,
+        valor_respuesta,
+        id_aspirante,
+        id_pregunta,
+        id_examen
+    )
+    VALUES (
+        p_texto_respuesta,
+        p_valor_respuesta,
+        p_id_aspirante,
+        p_id_pregunta,
+        p_id_examen
     );
 END;
 $$;
