@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (isset($_SESSION["id_user"])) {
+    header("Location: /exam/");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -9,6 +17,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/public/css/login.css">
+    <link rel="stylesheet" href="/public/css/toast.css">
 
 </head>
 
@@ -32,7 +41,7 @@
 
             <div class="form-group">
                 <label for="document-number">Número de Documento</label>
-                <input type="text" id="document-number" name="document-number"
+                <input type="number" id="document-number" name="document-number"
                     placeholder="Ingrese su número de documento" required>
             </div>
 
@@ -44,7 +53,7 @@
                 </div>
             </div>
 
-            <button  type="submit" class="login-btn">Iniciar Sesión</button>
+            <button type="submit" class="login-btn">Iniciar Sesión</button>
         </form>
 
 
@@ -54,52 +63,8 @@
         © 2025 Edurisk. Todos los derechos reservados.
     </footer>
 
-    <script>
-        // Animación suave al cargar la página
-        document.addEventListener('DOMContentLoaded', function () {
-            const container = document.querySelector('.login-container');
-            container.style.opacity = '0';
-            container.style.transform = 'translateY(20px)';
-
-            setTimeout(() => {
-                container.style.transition = 'all 0.6s ease';
-                container.style.opacity = '1';
-                container.style.transform = 'translateY(0)';
-            }, 100);
-        });
-
-        // Validación básica del formulario
-        document.querySelector('form').addEventListener('submit', function (e) {
-            const documentType = document.getElementById('document-type').value;
-            const documentNumber = document.getElementById('document-number').value;
-            const password = document.getElementById('password').value;
-
-            if (!documentType || !documentNumber || !password) {
-                e.preventDefault();
-                alert('Por favor, complete todos los campos obligatorios.');
-                return;
-            }
-
-            if (documentNumber.length < 6) {
-                e.preventDefault();
-                alert('El número de documento debe tener al menos 6 caracteres.');
-                return;
-            }
-        });
-
-        // Mostrar/Ocultar contraseña
-        const togglePassword = document.getElementById('togglePassword');
-        const passwordField = document.getElementById('password');
-
-        togglePassword.addEventListener('click', () => {
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            togglePassword.classList.toggle('bi-eye');
-            togglePassword.classList.toggle('bi-eye-slash');
-        });
-    </script>
-
     <script src="/public/js/login.js"></script>
+    <script src="/public/js/toast.js"></script>
 </body>
 
 </html>

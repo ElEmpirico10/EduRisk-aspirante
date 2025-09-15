@@ -10,34 +10,30 @@ async function login() {
     document.getElementById("document-number").value
   );
   formData.append("password", document.getElementById("password").value);
+  console.log(formData);
 
-  console.log(JSON.stringify(Object.fromEntries(formData)));
-
-  const response = await fetch("/auth/login", {
+  await fetch("/auth/login", {
     method: "POST",
-    headers: { "Content-type": "application/json" },
     body: formData,
   })
-    .then((res) => res.text())
+    .then((res) => res.json())
     .then((data) => {
       if (data.status == "success") {
-        alert(data.message);
-        const ubicacionActual = window.location.href;
-        localStorage.setItem("jwt_token", data.token);
-        let firstParam = data.token;
+        showToast(data.message, "green");
+        setTimeout(() => {
+          window.location.href = "/exam/";
+        }, 3000);
 
-        window.location.href = `${ubicacionActual}?tokenUser=${firstParam}`;
         return;
       }
 
       if (data.status == "error") {
-        alert(data.message);
-        console.log("Ha ocurrido un error inesperado en la obtencion de datos");
+        showToast(data.message, "red");
       }
     })
     .catch((err) => {
       console.log("Error en la conexion o JSON invalido: ", err);
-      alert("Error en la conexion. Por favor, intenta de nuevo");
+      showToast("Error en la conexion. Por favor, intenta de nuevo", "red");
     });
 }
 

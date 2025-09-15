@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION["id_user"])) {
+    header("Location: /auth/login");
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,8 +13,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduRisk - Evaluación ADSO</title>
-    <link rel="stylesheet" href="public/css/exam.css">
-    <link rel="stylesheet" href="public/css/toast.css">
+    <link rel="stylesheet" href="/public/css/exam.css">
+    <link rel="stylesheet" href="/public/css/toast.css">
 
 </head>
 
@@ -64,10 +72,10 @@
                 <div class="expired-info">
                     <p><strong>Tiempo límite:</strong> 30 minutos</p>
                     <p><strong>Estado:</strong> Evaluación no completada</p>
-                    
+
                 </div>
                 <button class="btn btn-primary" id="regresar-btn">Regresar al Login</button>
-                
+
             </div>
         </div>
     </div>

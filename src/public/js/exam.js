@@ -1,7 +1,7 @@
 let questions = [];
 let currentQuestion = 0;
 let answers = {};
-let timeLeft = 1 * 10; // 30 minutos en segundos
+let timeLeft = 1 * 1000; // 30 minutos en segundos
 let timerInterval;
 let evaluationExpired = false;
 
@@ -11,7 +11,6 @@ regresarbtn.addEventListener("click", () => {
   window.location.href = "/auth/login";
 });
 
-// 🚀 Cargar preguntas desde JSON antes de iniciar
 async function loadQuestions() {
   try {
     const response = await fetch("/public/json/preguntas.json"); // ajusta la ruta si es necesario
@@ -301,11 +300,6 @@ function expireEvaluation() {
 
   document.getElementById("expired-container").style.display = "block";
   document.removeEventListener("keydown", handleKeyDown);
-
-  // 🔴 Después de 10 segundos redirigir al login
-  setTimeout(() => {
-    window.location.href = "/auth/login"; // Cambia por tu ruta real
-  }, 10000); // 10000 ms = 10 segundos
 }
 
 function disableCopyPaste() {
