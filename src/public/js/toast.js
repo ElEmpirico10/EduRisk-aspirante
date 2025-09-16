@@ -1,5 +1,5 @@
 // Crear el contenedor si no existe
-(function() {
+(function () {
     if (!document.getElementById("toast-container")) {
         const container = document.createElement("div");
         container.id = "toast-container";
@@ -20,7 +20,29 @@ function showToast(message, color = "#333", duration = 3000) {
     const toast = document.createElement("div");
     toast.className = "toast";
     toast.style.backgroundColor = color;
-    toast.textContent = message;
+    if (Array.isArray(message)) {
+        if (message.length === 1) {
+            toast.textContent = message[0];
+        } else {
+            const ul = document.createElement("ul");
+            ul.style.margin = "0";
+            ul.style.padding = "5px";
+            ul.style.listStyle = "none";
+
+            message.forEach(item => {
+                const li = document.createElement("li");
+                li.style.marginBottom = "5px";
+                li.textContent = '⚠️ ' + item;
+                ul.appendChild(li);
+            });
+
+            toast.appendChild(ul);
+        }
+    } else {
+        toast.textContent = message;
+    }
+
+    console.log(toast)
 
     container.appendChild(toast);
 

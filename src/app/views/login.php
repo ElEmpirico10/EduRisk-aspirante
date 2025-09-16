@@ -9,6 +9,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/public/css/login.css">
+    <link rel="stylesheet" href="/public/css/toast.css">
 
 </head>
 
@@ -99,6 +100,7 @@
         });
     </script>
 
+    <script src="/public/js/toast.js"></script>
     <script src="/public/js/login.js"></script>
 </body>
 

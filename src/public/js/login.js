@@ -12,32 +12,44 @@ async function login() {
   formData.append("password", document.getElementById("password").value);
 
   console.log(JSON.stringify(Object.fromEntries(formData)));
-
-  const response = await fetch("/auth/login", {
+  
+  await fetch("/auth/login", {
     method: "POST",
-    headers: { "Content-type": "application/json" },
-    body: formData,
+    body: formData
   })
-    .then((res) => res.text())
+    .then(async (res) => {
+      const contentType = res.headers.get("Content-Type") || "";
+      const status = res.status;
+      const clone = res.clone();
+
+      if (!res.ok || !contentType.includes("application/json")) {
+        const htmlError = await clone.text();
+
+        console.group("🚨 Error de respuesta inesperada");
+        console.log("📄 Content-Type:", contentType);
+        console.log("📊 Status:", status);
+        console.log("🧾 HTML recibido:\n", htmlError);
+        console.groupEnd();
+
+        throw new Error(`Respuesta inválida (${status})`);
+      } else {
+        return res.json();
+      }
+    })
     .then((data) => {
       if (data.status == "success") {
-        alert(data.message);
-        const ubicacionActual = window.location.href;
-        localStorage.setItem("jwt_token", data.token);
-        let firstParam = data.token;
-
-        window.location.href = `${ubicacionActual}?tokenUser=${firstParam}`;
+        showToast(data.message, '#27F527');
         return;
       }
 
       if (data.status == "error") {
-        alert(data.message);
+        showToast(data.message, '#f52727ff');
         console.log("Ha ocurrido un error inesperado en la obtencion de datos");
       }
     })
     .catch((err) => {
-      console.log("Error en la conexion o JSON invalido: ", err);
-      alert("Error en la conexion. Por favor, intenta de nuevo");
+      console.log("Error en la conexion o JSON invalido: ", err.message);
+      showToast("Error en la conexion. Por favor, intenta de nuevo", '#f52727ff');
     });
 }
 
