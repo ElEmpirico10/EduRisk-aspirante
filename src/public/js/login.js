@@ -18,7 +18,10 @@ async function login() {
   })
     .then((res) => res.json())
     .then((data) => {
+      console.log(data);
       if (data.status == "success") {
+        localStorage.setItem("id_aspirante", data.id);
+        localStorage.setItem("id_examen", data.id_examen);
         showToast(data.message, "green");
         setTimeout(() => {
           window.location.href = "/exam/";

@@ -1,7 +1,7 @@
 let questions = [];
 let currentQuestion = 0;
 let answers = {};
-let timeLeft = 1 * 1000; // 30 minutos en segundos
+let timeLeft = 60 * 30; // tiempo de prueba
 let timerInterval;
 let evaluationExpired = false;
 
@@ -13,8 +13,47 @@ regresarbtn.addEventListener("click", () => {
 
 async function loadQuestions() {
   try {
-    const response = await fetch("/public/json/preguntas.json"); // ajusta la ruta si es necesario
-    questions = await response.json();
+    const examStatus = localStorage.getItem("examStatus");
+
+    if (examStatus === "finished") {
+      document.querySelector(".form-container").style.display = "none";
+      document.querySelector(".progress-container").style.display = "none";
+      document.querySelector(".header").style.display = "none";
+      document.getElementById("expired-container").style.display = "none";
+      document.getElementById("summary").classList.add("active");
+
+      // 🔥 Recuperar datos del resumen
+      const answeredCount = localStorage.getItem("answeredCount") || 0;
+      const totalQuestions = localStorage.getItem("totalQuestions") || 0;
+      const completionPercentage =
+        localStorage.getItem("completionPercentage") || 0;
+
+      document.getElementById("answered-count").textContent = answeredCount;
+      document.getElementById("total-questions-finished").textContent =
+        totalQuestions;
+      document.getElementById("completion-percentage").textContent =
+        completionPercentage;
+
+      return;
+    }
+
+    if (examStatus === "expired") {
+      // ⏰ Mostrar pantalla de expirado
+      document.querySelector(".form-container").style.display = "none";
+      document.querySelector(".progress-container").style.display = "none";
+      document.querySelector(".header").style.display = "none";
+      document.getElementById("summary").style.display = "none";
+      document.getElementById("expired-container").style.display = "block";
+      return;
+    }
+
+    // ⚡ Si no está ni finalizado ni expirado -> cargar preguntas normalmente
+    const id_aspirante = localStorage.getItem("id_aspirante");
+    const response = await fetch(`/exam/getExam?id_aspirante=${id_aspirante}`);
+    const data = await response.json();
+    console.log(data);
+    questions = data.preguntas;
+    console.log(questions);
     initializeInterview();
   } catch (error) {
     console.error("Error cargando preguntas:", error);
@@ -43,66 +82,75 @@ function generateQuestions() {
 
     let inputHTML = "";
 
-    switch (question.type) {
+    switch (question.tipo_pregunta) {
       case "textarea":
         inputHTML = `
-                    <textarea 
-                        class="answer-input" 
-                        id="answer-${index}"
-                        placeholder="${question.placeholder || ""}"
-                        oninput="saveAnswer(${index}, this.value)"
-                        onpaste="return false"
-                        oncontextmenu="return false"
-                    ></textarea>
-                `;
+          <textarea 
+            class="answer-input" 
+            id="answer-${index}"
+            placeholder="${question.contenido || ""}"
+            oninput="saveAnswer(${index}, this.value)"
+            onpaste="return false"
+            oncontextmenu="return false"
+          ></textarea>
+        `;
         break;
 
       case "select":
+        let selectOptions = [];
+        try {
+          selectOptions = JSON.parse(question.contenido);
+        } catch {
+          selectOptions = [];
+        }
         inputHTML = `
-                    <select 
-                        class="select-input" 
-                        id="answer-${index}"
-                        onchange="saveAnswer(${index}, this.value)"
-                    >
-                        <option value="">-- Selecciona una opción --</option>
-                        ${question.options
-                          .map(
-                            (option) =>
-                              `<option value="${option}">${option}</option>`
-                          )
-                          .join("")}
-                    </select>
-                `;
+          <select 
+            class="select-input" 
+            id="answer-${index}"
+            onchange="saveAnswer(${index}, this.value)"
+          >
+            <option value="">-- Selecciona una opción --</option>
+            ${selectOptions
+              .map((option) => `<option value="${option}">${option}</option>`)
+              .join("")}
+          </select>
+        `;
         break;
 
       case "radio":
+        let radioOptions = [];
+        try {
+          radioOptions = JSON.parse(question.contenido);
+        } catch {
+          radioOptions = [];
+        }
         inputHTML = `
-                    <div class="radio-group">
-                        ${question.options
-                          .map(
-                            (option) => `
-                            <label class="radio-option">
-                                <input 
-                                    type="radio" 
-                                    name="question-${index}" 
-                                    value="${option}"
-                                    onchange="saveAnswer(${index}, this.value); updateRadioStyles(${index})"
-                                >
-                                ${option}
-                            </label>
-                        `
-                          )
-                          .join("")}
-                    </div>
-                `;
+          <div class="radio-group">
+            ${radioOptions
+              .map(
+                (option) => `
+                <label class="radio-option">
+                  <input 
+                    type="radio" 
+                    name="question-${index}" 
+                    value="${option}"
+                    onchange="saveAnswer(${index}, this.value); updateRadioStyles(${index})"
+                  >
+                  ${option}
+                </label>
+              `
+              )
+              .join("")}
+          </div>
+        `;
         break;
     }
 
     questionCard.innerHTML = `
-            <div class="question-number">Pregunta ${index + 1}</div>
-            <div class="question-text">${question.text}</div>
-            ${inputHTML}
-        `;
+      <div class="question-number">Pregunta ${index + 1}</div>
+      <div class="question-text">${question.texto_pregunta}</div>
+      ${inputHTML}
+    `;
 
     container.appendChild(questionCard);
   });
@@ -154,6 +202,44 @@ function saveAnswer(questionIndex, value) {
   }
 }
 
+async function sendAnswers() {
+  const idAspirante = localStorage.getItem("id_aspirante");
+  const idExamen = localStorage.getItem("id_examen");
+
+  const respuestas = questions.map((q, index) => ({
+    id_pregunta: q.id_pregunta,
+    texto_respuesta: answers[index] || "",
+  }));
+
+  const payload = {
+    id_aspirante: idAspirante,
+    id_examen: idExamen,
+    respuestas: respuestas,
+  };
+
+  try {
+    const res = await fetch("/exam/saveAnswers", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+    console.log("Servidor respondió:", data);
+
+    if (data.success) {
+      showToast("✅ Respuestas guardadas correctamente", "green");
+    } else {
+      showToast("❌ Error al guardar: " + data.message, "red");
+    }
+  } catch (err) {
+    console.error("Error al enviar respuestas:", err);
+    showToast("⚠️ Error en la conexión con el servidor", "red");
+  }
+}
+
 function updateRadioStyles(questionIndex) {
   const radioOptions = document.querySelectorAll(
     `input[name="question-${questionIndex}"]`
@@ -171,11 +257,25 @@ function updateRadioStyles(questionIndex) {
 function nextQuestion() {
   if (evaluationExpired) return;
 
+  const currentQ = questions[currentQuestion];
+
+  // ⚠️ Validar respuesta vacía
   if (
     !answers[currentQuestion] ||
     answers[currentQuestion].toString().trim() === ""
   ) {
     showToast("⚠️ Debes llenar todos los campos", "orange");
+    const input = document.getElementById(`answer-${currentQuestion}`);
+    if (input) input.classList.add("error");
+    return;
+  }
+
+  // ⚠️ Validar mínimo de 200 caracteres en preguntas abiertas (textarea)
+  if (
+    currentQ.tipo_pregunta === "textarea" &&
+    answers[currentQuestion].trim().length < 200
+  ) {
+    showToast("⚠️ Tu respuesta debe tener mínimo 200 caracteres", "orange");
     const input = document.getElementById(`answer-${currentQuestion}`);
     if (input) input.classList.add("error");
     return;
@@ -193,15 +293,22 @@ function prevQuestion() {
   }
 }
 
-function finishInterview() {
+async function finishInterview() {
   if (evaluationExpired) return;
 
-  const unanswered = questions.filter((_, i) => {
-    return !answers[i] || answers[i].toString().trim() === "";
+  const unanswered = questions.filter((q, i) => {
+    return (
+      !answers[i] ||
+      answers[i].toString().trim() === "" ||
+      (q.tipo_pregunta === "textarea" && answers[i].trim().length < 200)
+    ); // 🔍 validar longitud
   });
 
   if (unanswered.length > 0) {
-    alert("⚠️ Debes responder todas las preguntas antes de finalizar.");
+    showToast(
+      "⚠️ Debes responder todas las preguntas (mínimo 200 caracteres en abiertas)",
+      "orange"
+    );
     unanswered.forEach((i) => {
       const input = document.getElementById(`answer-${i}`);
       if (input) input.classList.add("error");
@@ -209,53 +316,41 @@ function finishInterview() {
     return;
   }
 
+  await sendAnswers();
+
   clearInterval(timerInterval);
   document.querySelector(".form-container").style.display = "none";
   document.querySelector(".progress-container").style.display = "none";
   document.getElementById("summary").classList.add("active");
 
-  const answeredCount = Object.values(answers).filter(
-    (answer) => answer && answer.toString().trim()
-  ).length;
+  const answeredCount = questions.filter((q, i) => {
+    const ans = answers[i];
+    return ans && ans.toString().trim() !== "";
+  }).length;
   const completionPercentage = Math.round(
     (answeredCount / questions.length) * 100
   );
 
   document.getElementById("answered-count").textContent = answeredCount;
+  document.getElementById("total-questions-finished").textContent =
+    questions.length;
   document.getElementById("completion-percentage").textContent =
     completionPercentage;
+  localStorage.setItem("examStatus", "finished");
+  localStorage.setItem("examStatus", "finished");
+  localStorage.setItem("answeredCount", answeredCount);
+  localStorage.setItem("totalQuestions", questions.length);
+  localStorage.setItem("completionPercentage", completionPercentage);
 }
 
-function restartInterview() {
+async function FinishedSesssion() {
   if (evaluationExpired) return;
 
-  currentQuestion = 0;
-  answers = {};
+  window.onbeforeunload = null;
+  window.removeEventListener("beforeunload", () => {});
 
-  document.querySelectorAll(".answer-input").forEach((input) => {
-    input.value = "";
-    input.classList.remove("filled", "error");
-  });
-
-  document.querySelectorAll(".select-input").forEach((select) => {
-    select.selectedIndex = 0;
-    select.classList.remove("filled", "error");
-  });
-
-  document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-    radio.checked = false;
-    radio.closest(".radio-option").classList.remove("selected");
-  });
-
-  document.getElementById("summary").classList.remove("active");
-  document.querySelector(".form-container").style.display = "block";
-  document.querySelector(".progress-container").style.display = "block";
-
-  timeLeft = 30 * 60;
-  clearInterval(timerInterval);
-  startTimer();
-
-  showQuestion(0);
+  await fetch("/auth/logout");
+  window.location.href = "/auth/login";
 }
 
 function startTimer() {
@@ -289,7 +384,7 @@ function updateTimerDisplay() {
   }
 }
 
-function expireEvaluation() {
+async function expireEvaluation() {
   evaluationExpired = true;
   clearInterval(timerInterval);
 
@@ -300,6 +395,7 @@ function expireEvaluation() {
 
   document.getElementById("expired-container").style.display = "block";
   document.removeEventListener("keydown", handleKeyDown);
+  localStorage.setItem("examStatus", "expired");
 }
 
 function disableCopyPaste() {
@@ -325,15 +421,6 @@ function disableCopyPaste() {
 }
 
 function preventNavigation() {
-  window.addEventListener("beforeunload", function (e) {
-    if (!evaluationExpired) {
-      e.preventDefault();
-      e.returnValue =
-        "¿Está seguro de que desea salir? Se perderá su progreso.";
-      return "¿Está seguro de que desea salir? Se perderá su progreso.";
-    }
-  });
-
   document.addEventListener("keydown", function (e) {
     if (
       e.key === "F5" ||

@@ -12,7 +12,7 @@ class Users
 
     public function findByusuario($tipo_documento, $numero_documento)
     {
-        $sql = "SELECT * FROM buscar_aspirante(:tipo_documento,:numero_documento)";
+        $sql = "SELECT * FROM buscar_aspirante(:tipo_documento::tipo_documento, :numero_documento::BIGINT)";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
             ':tipo_documento' => $tipo_documento,
@@ -20,7 +20,6 @@ class Users
         ]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-
 }
+
 ?>

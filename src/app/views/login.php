@@ -1,11 +1,3 @@
-<?php
-session_start();
-if (isset($_SESSION["id_user"])) {
-    header("Location: /exam/");
-    exit;
-}
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 

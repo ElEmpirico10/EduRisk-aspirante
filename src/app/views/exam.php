@@ -22,7 +22,6 @@ if (!isset($_SESSION["id_user"])) {
     <div class="container">
         <div class="header">
             <h1>EduRisk - Evaluación ADSO</h1>
-            <p>Sistema de Evaluación de Riesgo Educativo</p>
         </div>
 
         <div class="progress-container">
@@ -56,11 +55,12 @@ if (!isset($_SESSION["id_user"])) {
         <div class="summary" id="summary">
             <h2>¡Evaluación Completada!</h2>
             <div class="summary-stats">
-                <p><strong>Preguntas respondidas:</strong> <span id="answered-count">0</span> de 27</p>
+                <p><strong>Preguntas respondidas:</strong> <span id="answered-count">0</span> de <span
+                        id="total-questions-finished"></span> </p>
                 <p><strong>Porcentaje de completitud:</strong> <span id="completion-percentage">0</span>%</p>
             </div>
 
-            <button class="btn btn-secondary" onclick="restartInterview()" style="margin-left: 10px;">Reiniciar</button>
+            <button class="btn btn-secondary" onclick="FinishedSesssion()" style="margin-left: 10px;">Finalizar</button>
         </div>
 
         <div class="expired-container" id="expired-container" style="display: none;">
@@ -74,7 +74,7 @@ if (!isset($_SESSION["id_user"])) {
                     <p><strong>Estado:</strong> Evaluación no completada</p>
 
                 </div>
-                <button class="btn btn-primary" id="regresar-btn">Regresar al Login</button>
+                <button class="btn btn-primary" id="regresar-btn" onclick="FinishedSesssion()">Finalizar</button>
 
             </div>
         </div>
